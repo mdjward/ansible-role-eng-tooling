@@ -13,7 +13,7 @@ dependencies:
     become_user: root
   - role: niziak.cpufrequtils
     src: git+https://github.com/niziak/ansible-cpufrequtils
-    version: niziak/ondemand_fix
+    version: "niziak/ondemand_fix"
     vars:
       cpufreq_governor: "performance"
     become: true
