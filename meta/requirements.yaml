@@ -1,0 +1,3 @@
+- name: niziak.ondemand_fix
+  src: git+https://github.com/niziak/ansible-cpufrequtils
+  version: niziak/ondemand_fix
