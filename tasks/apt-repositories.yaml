@@ -1,0 +1,22 @@
+- name: Add Apt key from central Ubuntu server
+  apt_key:
+    keyserver: "keyserver.ubuntu.com"
+    id: "{{ item.value.key.id }}"
+    state: "present"
+  when: "item.value.key is defined and item.value.key.id is defined"
+  become: true
+
+- name: Add Apt key from URL
+  apt_key:
+    url: "{{ item.value.key.url }}"
+    state: "present"
+  when: "item.value.key is defined and item.value.key.url is defined"
+  become: true
+
+- name: Add extra repository
+  apt_repository:
+    codename: "{{ item.value.dist | default(ansible_distribution_release) }}"
+    repo: "{{ item.value.repo | default(item.value) }}"
+    filename: "{{ item.key }}"
+    state: present
+  become: true

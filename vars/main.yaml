@@ -1,0 +1,24 @@
+eng_tooling_packages:
+  - name: OpenSSH client, Make, Curl, Apache2 utilities
+    packages:
+      - openssh-client
+      - make
+      - curl
+      - apache2-utils
+  - name: Compression libraries/utilities
+    packages:
+      - zip
+      - unzip
+      - gzip
+      - bzip2
+      - p7zip-full
+      - unrar-free
+  - name: Hardware monitoring utilities
+    packages:
+      - htop
+  - name: Extra packages
+    packages: "{{ eng_tooling_extra_packages | default([]) }}"
+
+git_global_config:
+  user.name: "{{ git_global_username }}"
+  user.email: "{{ git_global_email }}"

@@ -1,0 +1,20 @@
+dependencies:
+  - role: andrewrothstein.yq
+    become: true
+    become_user: root
+  - role: andrewrothstein.jq
+    become: true
+    become_user: root
+  - role: andrewrothstein.git
+    become: true
+    become_user: root
+  - role: geerlingguy.docker
+    become: true
+    become_user: root
+  - role: niziak.cpufrequtils
+    src: git+https://github.com/niziak/ansible-cpufrequtils
+    version: niziak/ondemand_fix
+    vars:
+      cpufreq_governor: "performance"
+    become: true
+    become_user: root

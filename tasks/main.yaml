@@ -1,0 +1,47 @@
+- name: Install packages
+  block:
+    - name: Configure extra APT repositories
+      include_tasks: apt-repositories.yaml
+      loop: "{{ eng_tooling_extra_apt_repositories | dict2items }}"
+
+    - name: Install APT packages
+      package:
+        name: "{{ item.packages | default([]) }}"
+        state: present
+      loop: "{{ eng_tooling_packages }}"
+
+    - name: Install Snap packages
+      snap:
+        name: "{{ item }}"
+        classic: yes
+        state: present
+      loop: "{{ eng_tooling_snap_packages }}"
+  become: true
+  become_user: "root"
+
+- name: Copy Git global config file
+  copy:
+    src: "{{ git_global_config_file }}"
+    dest: "{{ ansible_user_dir }}/.gitconfig"
+    owner: "{{ ansible_user }}"
+    mode: "0644"
+  when: |
+    git_global_config_file is not none and git_global_config_file != ""
+
+- name: Copy Git global ignore file
+  copy:
+    src: "{{ git_global_ignore_file }}"
+    dest: "{{ ansible_user_dir }}/.gitignore"
+    owner: "{{ ansible_user }}"
+    mode: "0644"
+  when: |
+    git_global_ignore_file is not none and git_global_ignore_file != ""
+
+- name: Configure Git user
+  git_config:
+    scope: global
+    name: "{{ item.key }}"
+    value: "{{ item.value }}"
+  loop: "{{ git_global_config | dict2items }}"
+  when: |
+    item.value is not none and item.value != ""

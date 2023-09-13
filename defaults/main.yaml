@@ -1,0 +1,9 @@
+eng_tooling_extra_apt_repositories: []
+eng_tooling_extra_packages: []
+eng_tooling_snap_packages: []
+
+git_global_config_file: ""
+git_global_ignore_file: ""
+
+git_global_username: ""
+git_global_email: ""
