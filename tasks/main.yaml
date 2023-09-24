@@ -10,6 +10,12 @@
         state: present
       loop: "{{ eng_tooling_packages }}"
 
+    - name: Install snapd
+      package:
+        name: "snapd"
+        state: present
+      when: eng_tooling_snap_packages | length == 0
+
     - name: Install Snap packages
       snap:
         name: "{{ item }}"
