@@ -4,17 +4,21 @@
       include_tasks: apt-repositories.yaml
       loop: "{{ eng_tooling_extra_apt_repositories | dict2items }}"
 
-    - name: Install APT packages
+    - name: Install packages
       package:
         name: "{{ item.packages | default([]) }}"
         state: present
       loop: "{{ eng_tooling_packages }}"
 
+  become: true
+  become_user: "root"
+
+- name: Install Snaps
+  block:
     - name: Install snapd
       package:
         name: "snapd"
         state: present
-      when: eng_tooling_snap_packages | length == 0
 
     - name: Install Snap packages
       snap:
@@ -22,6 +26,7 @@
         classic: yes
         state: present
       loop: "{{ eng_tooling_snap_packages }}"
+  when: eng_tooling_snap_packages | length > 0
   become: true
   become_user: "root"
 
